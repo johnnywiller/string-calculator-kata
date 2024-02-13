@@ -1,4 +1,5 @@
-.suo
-slnx.sqlite
-*.json
-.vs
+.vs/
+.idea/
+.fleet/
+.vscode/
+build/
