@@ -1,3 +1,7 @@
 .gradle
-build
-.idea
+build/
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+# Eclipse Gradle plugin generated files
+.project
+.classpath
