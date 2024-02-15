@@ -11,3 +11,8 @@ trim_trailing_whitespace = true
 [*.md]
 trim_trailing_whitespace = false
 insert_final_newline = false
+
+[*.{js,ts,tsx,json}]
+quote_type = single
+indent_size = 2
+curly_bracket_next_line = false
