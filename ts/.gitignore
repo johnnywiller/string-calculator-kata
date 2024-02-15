@@ -1,0 +1,10 @@
+build/
+coverage/
+dist/
+logs/
+node_modules/
+*.lock
+*.log
+.env
+.npm
+npm-debug.log*
