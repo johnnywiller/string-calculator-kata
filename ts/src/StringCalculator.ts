@@ -1,3 +1,5 @@
+import {DelimitedList} from "./DelimitedList";
+
 export class StringCalculator {
   /**
    * Calculate a sum from a string of numbers.
@@ -10,16 +12,6 @@ export class StringCalculator {
       return 0;
     }
 
-    // const [delimieter, numbers]
-
-
-    const numbers = this.listify(stringNumbers);
-
-    return numbers.reduce((acc, value) => acc + value, 0)
-  }
-
-  private listify(stringNumbers: string) {
-    const delimiter = /\n|,/;
-    return stringNumbers.split(delimiter).map(value => Number(value));
+    return DelimitedList.from(stringNumbers).sum();
   }
 }

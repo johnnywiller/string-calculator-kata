@@ -11,7 +11,7 @@ export class DelimitedList {
 
   static from(stringList: string): DelimitedList {
     const listWalker = new ListWalker(stringList, Delimiters.standardDelimiter());
-    let numbers = [];
+    let numbers: number[] = [];
 
     // TODO: Refactor this to use Iterator on ListWalker
     while (listWalker.hasMoreElements()) {
@@ -22,5 +22,9 @@ export class DelimitedList {
       }
     }
     return new DelimitedList(numbers);
+  }
+
+  sum() {
+    return this.elements.reduce((a, b) => a + b, 0);
   }
 }

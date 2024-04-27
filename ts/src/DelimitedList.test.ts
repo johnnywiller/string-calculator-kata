@@ -10,7 +10,7 @@ describe('DelimitedList', () => {
     ['12345', [12345]],
     [',12345,', [12345]],
     // Add more test cases here
-  ])('constructs a list with standard delimiter', (input, expected) => {
+  ])('constructs a list with standard delimiter for input %s', (input, expected) => {
     let list = DelimitedList.from(input);
     expect(list.elements).toEqual(expected);
   });
@@ -22,7 +22,7 @@ describe('DelimitedList', () => {
     ['\n1, 2, 3,,', "[,,]"],
     ['\n1, 2,, 3', "[,,]"],
     // Add more test cases here
-  ])('throws error if two standard delimiters in sequence', (input, expected) => {
+  ])('throws error if two standard delimiters in sequence for input %s', (input, expected) => {
     expect(() => DelimitedList.from(input)).toThrow("Invalid Delimiters in sequence " + expected);
   });
 
