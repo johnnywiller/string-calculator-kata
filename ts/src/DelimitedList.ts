@@ -1,3 +1,76 @@
+
+
+class Delimiters {
+  static standardDelimiter(): DelimiterBuilder {
+    return new DelimiterBuilder()
+      .withDelimiter(",")
+      .withDelimiter("\n");
+  }
+}
+
+class DelimiterBuilder {
+  private delimiters: string[] = [];
+
+  withDelimiter(delimiter: string): DelimiterBuilder {
+    this.delimiters.push(delimiter);
+    return this;
+  }
+
+  build(): Delimiter {
+    return new Delimiter(this.delimiters);
+  }
+}
+
+class Delimiter {
+  private readonly allowedDelimiters: string[];
+  private currentDelimiter: string = "";
+
+  constructor(delimiters: string[]) {
+    this.allowedDelimiters = delimiters;
+  }
+
+  tokenise(c: string): {element: string, canKeepTokenising: boolean} {
+    if (this.allowedDelimiters.includes(c)) {
+      this.currentDelimiter += c;
+      return {canKeepTokenising: true, element: ""};
+    } else {
+      return {canKeepTokenising: this.currentDelimiter.length == 0, element: c};
+    }
+  }
+}
+
+class ListWalker {
+
+  private stringList: string;
+  private delimiterBuilder: DelimiterBuilder;
+
+  constructor(stringList: string, delimiter: DelimiterBuilder) {
+    this.stringList = stringList;
+    this.delimiterBuilder = delimiter;
+  }
+
+  hasMoreElements() {
+    return this.stringList.length > 0;
+  }
+
+  nextNumber(): number {
+    let delimiter = this.delimiterBuilder.build();
+    let toReturn = "";
+    let walked = 0;
+    for (let c of this.stringList) {
+      const tokenise = delimiter.tokenise(c);
+      if (tokenise.canKeepTokenising) {
+        toReturn += tokenise.element;
+        walked++;
+      } else {
+        break;
+      }
+    }
+    this.stringList = this.stringList.substring(walked);
+    return Number.parseInt(toReturn);
+  }
+}
+
 export class DelimitedList {
 
   elements: number[];
@@ -8,27 +81,13 @@ export class DelimitedList {
   }
 
   static from(stringList: string): DelimitedList {
-    const parts = stringList.split(/[,\n]/);
-    const numbers = parts.map(value => Number(value));
+    const listWalker = new ListWalker(stringList, Delimiters.standardDelimiter());
+    let elements = [];
 
-    return new DelimitedList(numbers);
-  }
-
-  private static parseElements(standardDelimiter: string[]) {
-    let regExp = new RegExp(standardDelimiter.join('|'));
-    return this.stringList.split(regExp).map(value => Number(value));
-  }
-
-  private static parseCustomDelimiter(): string {
-    const regExpMatchArray = this.stringList.match("//(.)\n");
-    if (regExpMatchArray != null) {
-      this.removeCustomDelimiter();
-      return regExpMatchArray[1];
+    while (listWalker.hasMoreElements()) {
+      elements.push(listWalker.nextNumber());
     }
-    return "";
-  }
 
-  private static removeCustomDelimiter() {
-    this.stringList = this.stringList.replace(/\/\/;\n/, "");
+    return new DelimitedList(elements);
   }
 }

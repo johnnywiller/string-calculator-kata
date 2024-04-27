@@ -8,16 +8,21 @@ describe('DelimitedList', () => {
     expect(list.elements).toEqual([1, 2, 3, 4, 5]);
   });
 
+  it('constructs a list with multiple common delimiters', () => {
+    let list = DelimitedList.from('\n1, 2, 3\n 4, 5\n');
+    expect(list.elements).toEqual([1, 2, 3, 4, 5]);
+  });
+
+  it('throws error if two delimiters in sequence', () => {
+    expect(() => DelimitedList.from('\n1, 2,\n 3'))
+      .toThrow("Invalid Delimiters in sequence [,\n]");
+  });
+
   // it('constructs a list with custom delimiter and no numbers', () => {
   //   let list = DelimitedList.from('//;\n');
   //   expect(list.delimiters).toEqual([';']);
   // });
   //
-  // it('constructs a list with multiple common delimiters', () => {
-  //   let list = DelimitedList.from('\n1, 2, 3\n 4, 5');
-  //   expect(list.delimiters).toEqual([',\n']);
-  //   expect(list.elements).toEqual([1, 2, 3, 4, 5]);
-  // });
   //
   // it('constructs a list with custom delimiter', () => {
   //   let list = DelimitedList.from('//;\n1;2');
