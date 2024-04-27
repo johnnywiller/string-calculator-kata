@@ -1,4 +1,5 @@
 import {DelimiterBuilder} from "./DelimiterBuilder";
+import {Delimiter} from "./Delimiter";
 
 export class ListWalker {
 
@@ -16,8 +17,14 @@ export class ListWalker {
 
   nextElement(): string {
     let delimiter = this.delimiterBuilder.build();
-    let toReturn = "";
+    const step = this.walkNextElement(delimiter);
+    this.cleanHeadOfList(step.walked);
+    return step.element;
+  }
+
+  private walkNextElement(delimiter: Delimiter) {
     let walked = 0;
+    let toReturn: string = "";
     for (let c of this.listToWalk) {
       const tokenise = delimiter.tokenise(c);
       if (tokenise.canKeepTokenising) {
@@ -27,7 +34,10 @@ export class ListWalker {
         break;
       }
     }
+    return {walked: walked, element: toReturn};
+  }
+
+  private cleanHeadOfList(walked: number) {
     this.listToWalk = this.listToWalk.substring(walked);
-    return toReturn;
   }
 }
