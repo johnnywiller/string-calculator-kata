@@ -26,16 +26,13 @@ describe('DelimitedList', () => {
     expect(() => DelimitedList.from(input)).toThrow("Invalid Delimiters in sequence " + expected);
   });
 
-// it('constructs a list with custom delimiter and no numbers', () => {
-//   let list = DelimitedList.from('//;\n');
-//   expect(list.delimiters).toEqual([';']);
-// });
-//
-//
-// it('constructs a list with custom delimiter', () => {
-//   let list = DelimitedList.from('//;\n1;2');
-//   expect(list.delimiters).toEqual([';']);
-//   expect(list.elements).toEqual([1, 2]);
-// });
+  test.each([
+    ['//;\n1;2;3;4', [1, 2, 3, 4]],
+    ['//x\n1x2x3x4', [1, 2, 3, 4]],
+    ['//9\n1929394', [1, 2, 3, 4]],
+  ])('constructs a list with custom delimiter for input %s', (input, expected) => {
+    let list = DelimitedList.from(input);
+    expect(list.elements).toEqual(expected);
+  });
 })
 

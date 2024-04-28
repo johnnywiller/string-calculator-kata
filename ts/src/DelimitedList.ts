@@ -10,7 +10,7 @@ export class DelimitedList {
   }
 
   static from(stringList: string): DelimitedList {
-    const listWalker = new ListWalker(stringList, Delimiters.standardDelimiter());
+    const listWalker = new ListWalker(stringList, Delimiters.for(stringList));
     let numbers: number[] = [];
 
     // TODO: Refactor this to use Iterator on ListWalker
@@ -26,5 +26,9 @@ export class DelimitedList {
 
   sum() {
     return this.elements.reduce((a, b) => a + b, 0);
+  }
+
+  negatives() {
+    return this.elements.filter(n => n < 0);
   }
 }

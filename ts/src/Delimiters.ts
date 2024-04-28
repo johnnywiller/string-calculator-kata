@@ -6,4 +6,12 @@ export class Delimiters {
       .withDelimiter(",")
       .withDelimiter("\n");
   }
+
+  static for(stringList: string) {
+    if (stringList.startsWith("//")) {
+      return new DelimiterBuilder()
+        .withDelimiter(stringList[2]);
+    }
+    return this.standardDelimiter();
+  }
 }
