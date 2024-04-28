@@ -7,13 +7,13 @@ export class Delimiter {
     this.allowedDelimiters = delimiters;
   }
 
-  tokenise(c: string): { element: string, canKeepTokenising: boolean } {
+  tokenise(c: string): { digit: string, delimiterStillUnfinished: boolean } {
     if (this.allowedDelimiters.includes(c)) {
       this.checkForSequencedDelimiters(c);
       this.currentDelimiter += c;
-      return {canKeepTokenising: true, element: ""};
+      return {delimiterStillUnfinished: true, digit: ""};
     } else {
-      return {canKeepTokenising: this.currentDelimiter.length == 0, element: c};
+      return {delimiterStillUnfinished: this.currentDelimiter.length == 0, digit: c};
     }
   }
 

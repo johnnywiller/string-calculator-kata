@@ -17,18 +17,19 @@ export class ListWalker {
 
   nextElement(): string {
     let delimiter = this.delimiterBuilder.build();
-    const step = this.walkNextElement(delimiter);
+    const step = this.walkUntilEndOf(delimiter);
     this.cleanHeadOfList(step.walked);
     return step.element;
   }
 
-  private walkNextElement(delimiter: Delimiter) {
+  private walkUntilEndOf(delimiter: Delimiter) {
     let walked = 0;
     let toReturn: string = "";
-    for (let c of this.listToWalk) {
-      const tokenise = delimiter.tokenise(c);
-      if (tokenise.canKeepTokenising) {
-        toReturn += tokenise.element;
+    for (let digit of this.listToWalk) {
+      const token = delimiter.tokenise(digit);
+      // TODO: I dislike this design because it's the other obj who is telling if this can keep iterating
+      if (token.delimiterStillUnfinished) {
+        toReturn += token.digit;
         walked++;
       } else {
         break;
