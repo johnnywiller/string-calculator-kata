@@ -11,13 +11,18 @@ export class StringCalculator {
     if (stringNumbers.length === 0) {
       return 0;
     }
-
-    let delimitedList = DelimitedList.from(stringNumbers);
-    this.requireOnlyPositives(delimitedList);
+    let delimitedList = this.listFor(stringNumbers);
     return delimitedList.sum();
   }
 
-  // TODO: This policy is implemented as a method here,
+  private listFor(stringNumbers: string) {
+    let onlyLowerOrEqualThousand = (n: number) => n <= 1000;
+    let delimitedList = DelimitedList.from(stringNumbers, onlyLowerOrEqualThousand);
+    this.requireOnlyPositives(delimitedList);
+    return delimitedList;
+  }
+
+// TODO: This policy is implemented as a method here,
   //  but encapsulating into a new object or
   //  blending the policy into objects life cycle directly would be better.
   private requireOnlyPositives(delimitedList: DelimitedList) {

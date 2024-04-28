@@ -1,6 +1,8 @@
 import {ListWalker} from "./ListWalker";
 import {Delimiters} from "./Delimiters";
 
+let allNumbersFilter = () => true;
+
 export class DelimitedList {
 
   elements: number[];
@@ -9,7 +11,8 @@ export class DelimitedList {
     this.elements = elements;
   }
 
-  static from(stringList: string): DelimitedList {
+
+  static from(stringList: string, numberFilter: (n: number) => boolean = allNumbersFilter): DelimitedList {
     const listWalker = new ListWalker(stringList, Delimiters.for(stringList));
     let numbers: number[] = [];
 
@@ -17,7 +20,7 @@ export class DelimitedList {
     while (listWalker.hasMoreElements()) {
       let element = listWalker.nextElement();
       let number = Number.parseInt(element);
-      if (Number.isInteger(number)) {
+      if (DelimitedList.isValid(number, numberFilter)) {
         numbers.push(number);
       }
     }
@@ -30,5 +33,9 @@ export class DelimitedList {
 
   negatives() {
     return this.elements.filter(n => n < 0);
+  }
+
+  private static isValid(number: number, numberFilter: (n: number) => boolean) {
+    return Number.isInteger(number) && numberFilter(number);
   }
 }

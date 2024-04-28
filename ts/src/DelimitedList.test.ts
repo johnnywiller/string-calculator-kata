@@ -34,5 +34,18 @@ describe('DelimitedList', () => {
     let list = DelimitedList.from(input);
     expect(list.elements).toEqual(expected);
   });
+
+  test.each([
+    ['1000, 1, 2, 3', [1000, 1, 2, 3]],
+    ['//x\n1000x1x2x3', [1000, 1, 2, 3]],
+    ['1001, 1, 2, 3', [1, 2, 3]],
+    ['1, 1001, 2, 3', [1, 2, 3]],
+    ['1, 2, 3, 1001', [1, 2, 3]],
+    ['1001, 1, 2, 3, 1001', [1, 2, 3]],
+  ])('filters numbers bigger than 1000 for input %s', (input, expected) => {
+    let biggerThanThousandFilter = (n: number) => n <= 1000;
+    let list = DelimitedList.from(input, biggerThanThousandFilter);
+    expect(list.elements).toEqual(expected);
+  });
 })
 
