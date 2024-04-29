@@ -43,7 +43,7 @@ describe('DelimitedList', () => {
     ['1, 2, 3, 1001', [1, 2, 3]],
     ['1001, 1, 2, 3, 1001', [1, 2, 3]],
   ])('filters numbers bigger than 1000 for input %s', (input, expected) => {
-    let biggerThanThousandFilter = (n: number) => n <= 1000;
+    let biggerThanThousandFilter = (n: number) => n <= 1000 ? n : NaN;
     let list = DelimitedList.from(input, biggerThanThousandFilter);
     expect(list.elements).toEqual(expected);
   });

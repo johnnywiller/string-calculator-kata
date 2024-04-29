@@ -16,7 +16,7 @@ export class StringCalculator {
   }
 
   private listFor(stringNumbers: string) {
-    let onlyLowerOrEqualThousand = (n: number) => n <= 1000;
+    let onlyLowerOrEqualThousand = (n: number) => n <= 1000 ? n : NaN;
     let delimitedList = DelimitedList.from(stringNumbers, onlyLowerOrEqualThousand);
     this.requireOnlyPositives(delimitedList);
     return delimitedList;
