@@ -1,4 +1,5 @@
 import {DelimiterBuilder} from "./DelimiterBuilder";
+import {OneCharDelimiter} from "./OneCharDelimiter";
 import {Delimiter} from "./Delimiter";
 
 export class ListWalker {
