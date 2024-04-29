@@ -11,11 +11,14 @@ export class DelimitedList {
     this.elements = elements;
   }
 
-
   static from(stringList: string, numberFilter: (n: number) => boolean = allNumbersFilter): DelimitedList {
-    const listWalker = new ListWalker(stringList, Delimiters.for(stringList));
-    let numbers: number[] = [];
+    let numbers = DelimitedList.loadNumbersFrom(stringList, numberFilter);
+    return new DelimitedList(numbers);
+  }
 
+  private static loadNumbersFrom(stringList: string, numberFilter: (n: number) => boolean) {
+    let numbers = [];
+    const listWalker = new ListWalker(stringList, Delimiters.for(stringList));
     // TODO: Refactor this to use Iterator on ListWalker
     while (listWalker.hasMoreElements()) {
       let element = listWalker.nextElement();
@@ -24,7 +27,7 @@ export class DelimitedList {
         numbers.push(number);
       }
     }
-    return new DelimitedList(numbers);
+    return numbers;
   }
 
   sum() {

@@ -47,5 +47,14 @@ describe('DelimitedList', () => {
     let list = DelimitedList.from(input, biggerThanThousandFilter);
     expect(list.elements).toEqual(expected);
   });
+
+  test.each([
+    ['//[}]\n1}2}3', [1, 2, 3]],
+    ['//[**]\n1**2**3', [1, 2, 3]],
+    ['//[;;;]\n1;;;2;;;3', [1, 2, 3]],
+  ])('constructs a list with custom delimiter of any length for input %s', (input, expected) => {
+    let list = DelimitedList.from(input);
+    expect(list.elements).toEqual(expected);
+  });
 })
 
